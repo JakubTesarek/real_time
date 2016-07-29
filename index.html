@@ -7,7 +7,7 @@
 		<style>
 			body {
 				font-family: 'Titillium Web', sans-serif;
-			    font-size: 70px;
+			    font-size: 20px;
 			    color: #aaa;
 			    display: block;
 			    position: relative;
@@ -17,11 +17,13 @@
 
 			#clock {
 			    padding: 10px;
+			    margin-top: 30px;
 			}
 
 			time {
 				display: block;
 				position: relative;
+				font-size: 60px
 			}
 
 			time > sup {
@@ -29,16 +31,44 @@
 				display: inline-block;
 				position: absolute;
 			}
+
+			figure {
+				text-align: justify !important;
+			}
+
+			figcaption {
+				width: 100%;
+				text-align: right
+			}
+
+			a {
+				color: #555;
+				text-decoration: none
+			}
+
+			.container {
+ 			   margin: 0 auto;
+    			max-width: 950px;
+    			padding: 30px 15px 30px 15px;
+			}
 		</style>
 	</head>
 		 
 	<body>
+	<div class="container">
+		<figure class="cite">
+			<cite>It would be very desirable that all divisions, for example of the livre, the sou, the toise, the day, the hour, etc. would be from tens into tens. This division would result in much easier and more convenient calculations and would be very preferable to the arbitrary division of the livre into twenty sous, of the sou into twelve deniers, of the day into twenty-four hours, the hour into sixty minutes, etc.</cite>
+			<figcaption><a href="https://en.wikipedia.org/wiki/Encyclop%C3%A9die">1754, Encyclopedie, Jean le Rond d'Alembert</a></figcaption>
+		</figure>
+
+
 		<canvas id="clock" width="400" height="400">
 		    Your browser doesn't support canvas. Sorry :-(
 		</canvas>
 		<time id="decimal_time"></time>
+ 	</div>
  
- 
+
 		<script>
 			document.addEventListener('DOMContentLoaded', startTimer);
 			function startTimer() {
@@ -56,10 +86,11 @@
 			    var seconds = today.getSeconds();
 			    var miliseconds = today.getMilliseconds()
 
+
 			    seconds_today = (hours * 3600) + (minutes * 60) + seconds + (miliseconds / 1000);
 			    decimal_seconds_today = (seconds_today / 86400.0) * 100000.0
 
-			    h = Math.floor(decimal_seconds_today / 10000) % 5
+			    h = Math.floor(decimal_seconds_today / 10000)
 			    decimal_seconds_today %= h * 10000
 
 			    m = Math.floor(decimal_seconds_today / 100)
@@ -129,7 +160,7 @@
 				drawArm( sProgress,  2,   1); // Second
 
 				var ampm = h >= 5 ? 'pm' : 'am';
-				document.getElementById('decimal_time').innerHTML = h + ":" + prefix(m) + ":" + prefix(s) + "<sup>" + ampm + "</sup>";
+				document.getElementById('decimal_time').innerHTML = h%5 + ":" + prefix(m) + ":" + prefix(s) + "<sup>" + ampm + "</sup>";
 
 			}
 		</script>
