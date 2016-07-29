@@ -3,166 +3,24 @@
 <html>
 	<head>
 		<title>Decimal Clock time</title>
-		<link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,400" rel="stylesheet">
-		<style>
-			body {
-				font-family: 'Titillium Web', sans-serif;
-			    font-size: 20px;
-			    color: #aaa;
-			    display: block;
-			    position: relative;
-			    text-align: center;
-			    font-weight: 100;
-			}
-
-			#clock {
-			    padding: 10px;
-			    margin-top: 30px;
-			}
-
-			time {
-				display: block;
-				position: relative;
-				font-size: 60px
-			}
-
-			time > sup {
-				font-size: 50%;
-				display: inline-block;
-				position: absolute;
-			}
-
-			figure {
-				text-align: justify !important;
-			}
-
-			figcaption {
-				width: 100%;
-				text-align: right
-			}
-
-			a {
-				color: #555;
-				text-decoration: none
-			}
-
-			.container {
- 			   margin: 0 auto;
-    			max-width: 950px;
-    			padding: 30px 15px 30px 15px;
-			}
-		</style>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:200,400">
+		<link rel="stylesheet" type="text/css" href="main.css">
 	</head>
-		 
 	<body>
-	<div class="container">
-		<figure class="cite">
-			<cite>It would be very desirable that all divisions, for example of the livre, the sou, the toise, the day, the hour, etc. would be from tens into tens. This division would result in much easier and more convenient calculations and would be very preferable to the arbitrary division of the livre into twenty sous, of the sou into twelve deniers, of the day into twenty-four hours, the hour into sixty minutes, etc.</cite>
-			<figcaption><a href="https://en.wikipedia.org/wiki/Encyclop%C3%A9die">1754, Encyclopedie, Jean le Rond d'Alembert</a></figcaption>
-		</figure>
-
-
-		<canvas id="clock" width="400" height="400">
-		    Your browser doesn't support canvas. Sorry :-(
-		</canvas>
-		<time id="decimal_time"></time>
- 	</div>
- 
-
-		<script>
-			document.addEventListener('DOMContentLoaded', startTimer);
-			function startTimer() {
-				setInterval(updateClocks, 200);
-			}
-
-			function prefix(time) {
-				return time < 10 ? "0"+time : time
-			}
-
-			function updateClocks() {
-				var today = new Date();
-			    var hours = today.getHours();
-			    var minutes = today.getMinutes();
-			    var seconds = today.getSeconds();
-			    var miliseconds = today.getMilliseconds()
-
-
-			    seconds_today = (hours * 3600) + (minutes * 60) + seconds + (miliseconds / 1000);
-			    decimal_seconds_today = (seconds_today / 86400.0) * 100000.0
-
-			    h = Math.floor(decimal_seconds_today / 10000)
-			    decimal_seconds_today %= h * 10000
-
-			    m = Math.floor(decimal_seconds_today / 100)
-			    decimal_seconds_today %= Math.floor(m * 100)
-			    s = Math.floor(decimal_seconds_today)
-
-				// --- Analog clock ---//
-
-				var canvas = document.getElementById("clock");
-				var context = canvas.getContext("2d");
-				
-				// You can change this to make the clock as big or small as you want.
-				// Just remember to adjust the canvas size if necessary.
-				var clockRadius = 200;
-
-				// Make sure the clock is centered in the canvas
-				var clockX = canvas.width / 2;
-				var clockY = canvas.height / 2;
-
-				// Make sure TAU is defined (it's not by default)
-				Math.TAU = 2 * Math.PI;
-				
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.lineWidth 	= 1;
-
-				// Draw background
-				for (var i = 0; i < 100; i++) {
-					var innerDist = (i % 5) ? 0.95 : (i % 20) ? 0.85 : 0.7;
-					var outerDist = 1;
-					
-					context.strokeStyle = '#AAA';
-					
-					var armRadians = (Math.TAU * (i/100)) - (Math.TAU/4);
-					var x1 = clockX + Math.cos(armRadians) * (innerDist * clockRadius);
-					var y1 = clockY + Math.sin(armRadians) * (innerDist * clockRadius);
-					var x2 = clockX + Math.cos(armRadians) * (outerDist * clockRadius);
-					var y2 = clockY + Math.sin(armRadians) * (outerDist * clockRadius);
-					
-					context.beginPath();
-					context.moveTo(x1, y1); // Start at the center
-					context.lineTo(x2, y2); // Draw a line outwards
-					context.stroke();
-				}
-				
-				// Draw arms
-
-				function drawArm(progress, armThickness, armLength) {
-					var armRadians = (Math.TAU * progress) - (Math.TAU/4);
-					var targetX = clockX + Math.cos(armRadians) * (armLength * clockRadius);
-					var targetY = clockY + Math.sin(armRadians) * (armLength * clockRadius);
-
-					context.lineWidth = 1;
-					context.strokeStyle = '#444';
-
-					context.beginPath();
-					context.moveTo(clockX, clockY); // Start at the center
-					context.lineTo(targetX, targetY); // Draw a line outwards
-					context.stroke();
-				}
-				
-				var hProgress = (h/5) + (1/5)*(m/100) + (1/5)*(1/100)*(s/100);
-				var mProgress =                 (m/100) +        (1/100)*(s/100);
-				var sProgress =                                        (s/100);
-				
-				drawArm( hProgress, 10, 1/2); // Hour
-				drawArm( mProgress,  4, 3/4); // Minute
-				drawArm( sProgress,  2,   1); // Second
-
-				var ampm = h >= 5 ? 'pm' : 'am';
-				document.getElementById('decimal_time').innerHTML = h%5 + ":" + prefix(m) + ":" + prefix(s) + "<sup>" + ampm + "</sup>";
-
-			}
-		</script>
+		<div class="container">
+			<figure>
+				<cite>
+					It would be very desirable that all divisions, for example of the livre, the sou, the toise, the
+					day, the hour, etc. would be from tens into tens. This division would result in much easier and more
+					convenient calculations and would be very preferable to the arbitrary division of the livre into
+					twenty sous, of the sou into twelve deniers, of the day into twenty-four hours, the hour into sixty
+					minutes, etc.
+				</cite>
+				<figcaption><a href="http://bit.ly/2aCgcWE">1754, Encyclopedie, Jean le Rond d'Alembert</a></figcaption>
+			</figure>
+			<canvas id="clock" width="400" height="400">Your browser doesn't support canvas. Sorry :-(</canvas>
+			<time id="decimal_time"></time>
+	 	</div>
+		<script src="decimal_clock.js"></script>
 	</body>
 </html>
