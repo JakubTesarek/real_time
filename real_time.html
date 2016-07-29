@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+function startTime() {
+    var today = new Date();
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var seconds = today.getSeconds();
+    var miliseconds = today.getMilliseconds()
+
+    seconds_today = (hours * 3600) + (minutes * 60) + seconds + (miliseconds / 1000);
+    decimal_seconds_today = (seconds_today / 86400.0) * 100000.0
+
+
+    decimal_hours = Math.floor(decimal_seconds_today / 10000)
+    decimal_seconds_today %= decimal_hours * 10000
+
+    decimal_minutes = Math.floor(decimal_seconds_today / 100)
+    decimal_seconds_today %= Math.floor(decimal_minutes * 100)
+    decimal_seconds = Math.floor(decimal_seconds_today)
+
+    
+    document.getElementById('txt').innerHTML = decimal_hours + ":" + decimal_minutes + ":" + decimal_seconds;
+    
+    var t = setTimeout(startTime, 160);
+}
+
+function checkTime(i) {
+    if (i < 10) {
+        return "0" + i;
+    };
+    return i;
+}
+
+</script>
+</head>
+
+<body onload="startTime()">
+<div id="txt"></div>
+
+</body>
+</html>
