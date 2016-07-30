@@ -15,14 +15,7 @@ canvas {
 
 time {
 	display: block;
-	position: relative;
 	font-size: 60px
-}
-
-sup {
-	font-size: 50%;
-	display: inline-block;
-	position: absolute;
 }
 
 figure {

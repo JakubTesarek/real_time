@@ -8,13 +8,9 @@ function prefix(time) {
 	return time < 10 ? "0"+time : time
 }
 
-function ampm(h) {
-	return h >= 5 ? "pm" : "am";
-}
-
 function updateDigitalClocks(h, m, s) {
 	clocks = document.getElementById("decimal_time");
-	clocks.innerHTML = h % 5 + ":" + prefix(m) + ":" + prefix(s) + "<sup>" + ampm(h) + "</sup>";
+	clocks.innerHTML = h + ":" + prefix(m) + ":" + prefix(s);
 }
 
 function updateAnalogClocks(h, m, s) {
@@ -31,7 +27,7 @@ function updateAnalogClocks(h, m, s) {
 
 	function drawBackground() {
 		for (var i = 0; i < 100; i++) {
-			var innerDist = (i % 5) ? 0.95 : (i % 20) ? 0.85 : 0.7;
+			var innerDist = (i % 10) ? 0.95 : 0.85;
 			var outerDist = 1;
 			
 			context.lineWidth = 1;
@@ -66,7 +62,7 @@ function updateAnalogClocks(h, m, s) {
 	
 	drawBackground()
 
-	var hProgress = (h / 5) + (1 / 5) * (m / 100) + (1 / 5) * (1 / 100) * (s / 100);
+	var hProgress = (h / 10) + (1 / 5) * (m / 100) + (1 / 5) * (1 / 100) * (s / 100);
 	var mProgress = (m / 100) + (1 / 100) * (s / 100);
 	var sProgress = s / 100;
 	
